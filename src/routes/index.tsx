@@ -3,6 +3,6 @@ import { redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
 	loader: async () => {
-		return redirect({ to: "/monsters" });
+		return redirect({ to: "/species" });
 	},
 });

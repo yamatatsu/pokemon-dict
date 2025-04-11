@@ -11,14 +11,14 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as MonstersImport } from './routes/monsters'
+import { Route as SpeciesImport } from './routes/species'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
-const MonstersRoute = MonstersImport.update({
-  id: '/monsters',
-  path: '/monsters',
+const SpeciesRoute = SpeciesImport.update({
+  id: '/species',
+  path: '/species',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,11 +39,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/monsters': {
-      id: '/monsters'
-      path: '/monsters'
-      fullPath: '/monsters'
-      preLoaderRoute: typeof MonstersImport
+    '/species': {
+      id: '/species'
+      path: '/species'
+      fullPath: '/species'
+      preLoaderRoute: typeof SpeciesImport
       parentRoute: typeof rootRoute
     }
   }
@@ -53,37 +53,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/monsters': typeof MonstersRoute
+  '/species': typeof SpeciesRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/monsters': typeof MonstersRoute
+  '/species': typeof SpeciesRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/monsters': typeof MonstersRoute
+  '/species': typeof SpeciesRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/monsters'
+  fullPaths: '/' | '/species'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/monsters'
-  id: '__root__' | '/' | '/monsters'
+  to: '/' | '/species'
+  id: '__root__' | '/' | '/species'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MonstersRoute: typeof MonstersRoute
+  SpeciesRoute: typeof SpeciesRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MonstersRoute: MonstersRoute,
+  SpeciesRoute: SpeciesRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +97,14 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/monsters"
+        "/species"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/monsters": {
-      "filePath": "monsters.tsx"
+    "/species": {
+      "filePath": "species.tsx"
     }
   }
 }

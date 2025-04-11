@@ -31,7 +31,7 @@ export const Route = createRootRoute({
 								event.preventDefault();
 								navigate({ to: event.detail.href });
 							}}
-							items={[{ type: "link", text: "モンスター", href: "/monsters" }]}
+							items={[{ type: "link", text: "モンスター", href: "/species" }]}
 						/>
 					}
 				/>
