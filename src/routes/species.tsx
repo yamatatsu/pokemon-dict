@@ -7,40 +7,16 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import Table from "@cloudscape-design/components/table";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { gql, useQuery } from "urql";
-
-const speciesQuery = gql`
-query samplePokeAPIquery {
-  pokemon_v2_pokemonspeciesname(
-    where: {language_id: {_eq: 1}}
-    limit: 10
-    order_by: {id: asc}
-  ) {
-    name
-    genus
-    pokemon_species_id
-  }
-}
-`;
+import { type Specie, useSpecies } from "../hooks/useSpecies";
 
 export const Route = createFileRoute("/species")({
 	component: Component,
 });
 
-type PokemonSpeciesName = {
-	pokemon_species_id: number;
-	name: string;
-	genus: string;
-};
-
 function Component() {
-	const [selectedTask, setSelectedTask] = useState<PokemonSpeciesName | null>(
-		null,
-	);
+	const [selectedTask, setSelectedTask] = useState<Specie | null>(null);
 
-	const [result] = useQuery({
-		query: speciesQuery,
-	});
+	const species = useSpecies();
 
 	return (
 		<Table
@@ -49,8 +25,8 @@ function Component() {
 				{ id: "name", header: "名前", cell: (item) => item.name },
 				{ id: "genus", header: "分類", cell: (item) => item.genus },
 			]}
-			items={result.data?.pokemon_v2_pokemonspeciesname ?? []}
-			loading={result.fetching}
+			items={species}
+			loading={species.length === 0}
 			loadingText="Loading resources"
 			header={<Header>ポケモン</Header>}
 			empty={

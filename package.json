@@ -6,11 +6,13 @@
 	"scripts": {
 		"dev": "vite --mode=dev",
 		"build": "vite build --mode=prd",
-		"type-check": "tsc --noEmit"
+		"type-check": "tsc --noEmit",
+		"codegen": "graphql-codegen --config codegen.ts"
 	},
 	"dependencies": {
 		"@cloudscape-design/components": "^3.0.807",
 		"@cloudscape-design/global-styles": "^1.0.0",
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"@tanstack/react-router": "^1.77.6",
 		"graphql": "^16.10.0",
 		"react": "^18.0.0",
@@ -19,7 +21,8 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@graphql-codegen/cli": "^5.0.5",
+		"@graphql-codegen/cli": "5.0.5",
+		"@graphql-codegen/client-preset": "4.8.0",
 		"@tanstack/router-plugin": "^1.76.4",
 		"@types/react": "^18.0.0",
 		"@types/react-dom": "^18.0.0",
