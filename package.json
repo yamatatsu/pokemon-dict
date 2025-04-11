@@ -1,0 +1,27 @@
+{
+	"name": "pokemon-dic",
+	"version": "1.0.0",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --mode=dev",
+		"build": "vite build --mode=prd",
+		"type-check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@cloudscape-design/components": "^3.0.807",
+		"@cloudscape-design/global-styles": "^1.0.0",
+		"@tanstack/react-router": "^1.77.6",
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@tanstack/router-plugin": "^1.76.4",
+		"@types/react": "^18.0.0",
+		"@types/react-dom": "^18.0.0",
+		"@vitejs/plugin-react": "^4.0.0",
+		"typescript": "^5.8.3",
+		"vite": "^6.2.6"
+	}
+}
