@@ -14,6 +14,13 @@ query specieQuery($id: Int) {
       pokemon_v2_pokemons(where: {is_default: {_eq: true}}) {
         height
         weight
+        pokemon_v2_pokemontypes {
+          pokemon_v2_type {
+            pokemon_v2_typenames(where: {language_id: {_eq: 1}}) {
+              name
+            }
+          }
+        }
         pokemon_v2_pokemonmoves(
           where: {
             version_group_id: {_eq: 25},
@@ -49,6 +56,7 @@ type SpecieDetail = {
 	genus: string;
 	height?: number | null;
 	weight?: number | null;
+	types?: string;
 	moves?: {
 		level: number;
 		name?: string;
@@ -74,6 +82,10 @@ export function useSpecie(id: string): {
 			pokemon_species_id: data.pokemon_species_id,
 			name: data.name,
 			genus: data.genus,
+			types:
+				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.pokemon_v2_pokemontypes
+					.map((type) => type.pokemon_v2_type?.pokemon_v2_typenames[0]?.name)
+					.join("/"),
 			height: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.height,
 			weight: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.weight,
 			moves:

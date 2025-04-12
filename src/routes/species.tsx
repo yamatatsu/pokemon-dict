@@ -135,6 +135,10 @@ function SpecieDetailSplitPanel() {
 										value: specie.data.genus,
 									},
 									{
+										label: "タイプ",
+										value: specie.data.types,
+									},
+									{
 										label: "高さ",
 										value: specie.data.height
 											? `${specie.data.height / 10} m`
