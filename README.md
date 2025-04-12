@@ -1,0 +1,7 @@
+- [ ] detail page
+- [ ] detail page: moves
+- [ ] detail page: evolution chain
+- [ ] search by name
+- [ ] link for github
+- [ ] host as github pages
+- [ ] i18n

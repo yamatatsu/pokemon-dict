@@ -5,8 +5,16 @@ dictionaries: []
 words:
   - codegen
   - graphcache
+  - movelearnmethod
+  - movenames
+  - pokemonmoves
   - pokemonspeciesname
+  - pokemonspeciesnames
+  - pokemonspecy
+  - pokemontypes
+  - typenames
   - urql
+  - valibot
   - yamatatsu
 ignoreWords: []
 import: []

@@ -14,10 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\nquery speciesQuery {\n  pokemon_v2_pokemonspeciesname(\n    where: {language_id: {_eq: 1}}\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n": typeof types.SpeciesQueryDocument,
+    "\nquery speciesQuery($name: String) {\n  pokemon_v2_pokemonspeciesname(\n    where: {\n      language_id: {_eq: 1},\n      name: {_regex: $name}\n    }\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n": typeof types.SpeciesQueryDocument,
 };
 const documents: Documents = {
-    "\nquery speciesQuery {\n  pokemon_v2_pokemonspeciesname(\n    where: {language_id: {_eq: 1}}\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n": types.SpeciesQueryDocument,
+    "\nquery speciesQuery($name: String) {\n  pokemon_v2_pokemonspeciesname(\n    where: {\n      language_id: {_eq: 1},\n      name: {_regex: $name}\n    }\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n": types.SpeciesQueryDocument,
 };
 
 /**
@@ -37,7 +37,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\nquery speciesQuery {\n  pokemon_v2_pokemonspeciesname(\n    where: {language_id: {_eq: 1}}\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n"): (typeof documents)["\nquery speciesQuery {\n  pokemon_v2_pokemonspeciesname(\n    where: {language_id: {_eq: 1}}\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n"];
+export function graphql(source: "\nquery speciesQuery($name: String) {\n  pokemon_v2_pokemonspeciesname(\n    where: {\n      language_id: {_eq: 1},\n      name: {_regex: $name}\n    }\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n"): (typeof documents)["\nquery speciesQuery($name: String) {\n  pokemon_v2_pokemonspeciesname(\n    where: {\n      language_id: {_eq: 1},\n      name: {_regex: $name}\n    }\n    limit: 10\n    order_by: {id: asc}\n  ) {\n    name\n    genus\n    pokemon_species_id\n  }\n}\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -1,11 +1,15 @@
 import type { ResultOf } from "@graphql-typed-document-node/core";
+import { useState } from "react";
 import { useQuery } from "urql";
 import { graphql } from "../gql";
 
 const query = graphql(`
-query speciesQuery {
+query speciesQuery($name: String) {
   pokemon_v2_pokemonspeciesname(
-    where: {language_id: {_eq: 1}}
+    where: {
+      language_id: {_eq: 1},
+      name: {_regex: $name}
+    }
     limit: 10
     order_by: {id: asc}
   ) {
@@ -20,10 +24,19 @@ export type Specie = ResultOf<
 	typeof query
 >["pokemon_v2_pokemonspeciesname"][number];
 
-export function useSpecies(): Specie[] {
+export function useSpecies(): {
+	data: Specie[];
+	setName: (name: string) => void;
+} {
+	const [name, setName] = useState("");
+
 	const [result] = useQuery({
 		query: query,
+		variables: { name },
 	});
 
-	return result.data?.pokemon_v2_pokemonspeciesname ?? [];
+	return {
+		data: result.data?.pokemon_v2_pokemonspeciesname ?? [],
+		setName,
+	};
 }
