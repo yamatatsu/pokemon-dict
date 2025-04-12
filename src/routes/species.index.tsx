@@ -1,6 +1,7 @@
 import {
 	AppLayout,
 	Box,
+	BreadcrumbGroup,
 	Button,
 	Link,
 	SpaceBetween,
@@ -19,6 +20,9 @@ export const Route = createFileRoute("/species/")({
 function Component() {
 	return (
 		<AppLayout
+			breadcrumbs={
+				<BreadcrumbGroup items={[{ text: "ポケモン", href: "#" }]} />
+			}
 			content={<SpecieTable />}
 			navigation={<PDSideNavigation />}
 			toolsHide

@@ -1,12 +1,15 @@
 import {
 	AppLayout,
 	Box,
+	BreadcrumbGroup,
 	Container,
+	ContentLayout,
+	Header,
 	KeyValuePairs,
 	SpaceBetween,
 	Table,
 } from "@cloudscape-design/components";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PDSideNavigation } from "../components/PDSideNavigation";
 import { useSpecie } from "../hooks/useSpecie";
 
@@ -15,8 +18,24 @@ export const Route = createFileRoute("/species/$specieId")({
 });
 
 function Component() {
+	const params = Route.useParams();
+	const navigate = useNavigate();
+	const specie = useSpecie(params.specieId);
+
 	return (
 		<AppLayout
+			breadcrumbs={
+				<BreadcrumbGroup
+					items={[
+						{ text: "ポケモン", href: "/species" },
+						{ text: specie.data?.name ?? "", href: "#" },
+					]}
+					onClick={(event) => {
+						event.preventDefault();
+						navigate({ to: event.detail.item.href });
+					}}
+				/>
+			}
 			content={<SpecieDetail />}
 			navigation={<PDSideNavigation />}
 			toolsHide
@@ -33,14 +52,14 @@ function SpecieDetail() {
 	}
 
 	return (
-		<>
-			<Container
-				header={
-					<h1>
-						#{specie.data.pokemon_species_id} {specie.data.name}
-					</h1>
-				}
-			>
+		<ContentLayout
+			header={
+				<Header variant="h1">
+					#{specie.data.pokemon_species_id} {specie.data.name}
+				</Header>
+			}
+		>
+			<Container header={<Header variant="h2">概要</Header>}>
 				<KeyValuePairs
 					columns={4}
 					items={[
@@ -69,7 +88,7 @@ function SpecieDetail() {
 			</Container>
 
 			<Table
-				header={<h2>わざ</h2>}
+				header={<Header variant="h2">わざ</Header>}
 				columnDefinitions={[
 					{
 						id: "level",
@@ -100,9 +119,9 @@ function SpecieDetail() {
 				}
 			/>
 
-			<Container header={<h2>説明</h2>}>
+			<Container header={<Header variant="h2">説明</Header>}>
 				<p style={{ whiteSpace: "pre-wrap" }}>{specie.data.flavor_text}</p>
 			</Container>
-		</>
+		</ContentLayout>
 	);
 }
