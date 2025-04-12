@@ -11,17 +11,11 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SpeciesImport } from './routes/species'
 import { Route as IndexImport } from './routes/index'
+import { Route as SpeciesIndexImport } from './routes/species.index'
 import { Route as SpeciesSpecieIdImport } from './routes/species.$specieId'
 
 // Create/Update Routes
-
-const SpeciesRoute = SpeciesImport.update({
-  id: '/species',
-  path: '/species',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -29,10 +23,16 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SpeciesIndexRoute = SpeciesIndexImport.update({
+  id: '/species/',
+  path: '/species/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const SpeciesSpecieIdRoute = SpeciesSpecieIdImport.update({
-  id: '/$specieId',
-  path: '/$specieId',
-  getParentRoute: () => SpeciesRoute,
+  id: '/species/$specieId',
+  path: '/species/$specieId',
+  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -46,72 +46,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/species': {
-      id: '/species'
-      path: '/species'
-      fullPath: '/species'
-      preLoaderRoute: typeof SpeciesImport
-      parentRoute: typeof rootRoute
-    }
     '/species/$specieId': {
       id: '/species/$specieId'
-      path: '/$specieId'
+      path: '/species/$specieId'
       fullPath: '/species/$specieId'
       preLoaderRoute: typeof SpeciesSpecieIdImport
-      parentRoute: typeof SpeciesImport
+      parentRoute: typeof rootRoute
+    }
+    '/species/': {
+      id: '/species/'
+      path: '/species'
+      fullPath: '/species'
+      preLoaderRoute: typeof SpeciesIndexImport
+      parentRoute: typeof rootRoute
     }
   }
 }
 
 // Create and export the route tree
 
-interface SpeciesRouteChildren {
-  SpeciesSpecieIdRoute: typeof SpeciesSpecieIdRoute
-}
-
-const SpeciesRouteChildren: SpeciesRouteChildren = {
-  SpeciesSpecieIdRoute: SpeciesSpecieIdRoute,
-}
-
-const SpeciesRouteWithChildren =
-  SpeciesRoute._addFileChildren(SpeciesRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/species': typeof SpeciesRouteWithChildren
   '/species/$specieId': typeof SpeciesSpecieIdRoute
+  '/species': typeof SpeciesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/species': typeof SpeciesRouteWithChildren
   '/species/$specieId': typeof SpeciesSpecieIdRoute
+  '/species': typeof SpeciesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/species': typeof SpeciesRouteWithChildren
   '/species/$specieId': typeof SpeciesSpecieIdRoute
+  '/species/': typeof SpeciesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/species' | '/species/$specieId'
+  fullPaths: '/' | '/species/$specieId' | '/species'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/species' | '/species/$specieId'
-  id: '__root__' | '/' | '/species' | '/species/$specieId'
+  to: '/' | '/species/$specieId' | '/species'
+  id: '__root__' | '/' | '/species/$specieId' | '/species/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SpeciesRoute: typeof SpeciesRouteWithChildren
+  SpeciesSpecieIdRoute: typeof SpeciesSpecieIdRoute
+  SpeciesIndexRoute: typeof SpeciesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SpeciesRoute: SpeciesRouteWithChildren,
+  SpeciesSpecieIdRoute: SpeciesSpecieIdRoute,
+  SpeciesIndexRoute: SpeciesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -125,21 +116,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/species"
+        "/species/$specieId",
+        "/species/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/species": {
-      "filePath": "species.tsx",
-      "children": [
-        "/species/$specieId"
-      ]
-    },
     "/species/$specieId": {
-      "filePath": "species.$specieId.tsx",
-      "parent": "/species"
+      "filePath": "species.$specieId.tsx"
+    },
+    "/species/": {
+      "filePath": "species.index.tsx"
     }
   }
 }

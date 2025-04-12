@@ -2,8 +2,8 @@
 - [x] detail page: moves
 - [ ] detail page: evolution chain
 - [ ] detail page: weaknesses
-- [ ] persist search keyword
-- [ ] split list and detail pages
+- [x] persist search keyword
+- [x] split list and detail pages
 - [x] search by name
 - [ ] link for github
 - [ ] host as github pages

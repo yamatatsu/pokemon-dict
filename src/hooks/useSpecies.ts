@@ -29,17 +29,24 @@ export type Specie = ResultOf<
 
 export function useSpecies(): {
 	data: Specie[];
-	setName: (name: string) => void;
+	searchName: string;
+	setSearchName: (name: string) => void;
 } {
-	const [name, setName] = useState("");
+	const [searchName, setSearchName] = useState(
+		localStorage.getItem("SEARCH_POKEMON_NAME") ?? "",
+	);
 
 	const [result] = useQuery({
 		query: query,
-		variables: { name },
+		variables: { name: searchName },
 	});
 
 	return {
 		data: result.data?.pokemon_v2_pokemonspeciesname ?? [],
-		setName,
+		searchName,
+		setSearchName: (name: string) => {
+			localStorage.setItem("SEARCH_POKEMON_NAME", name);
+			setSearchName(name);
+		},
 	};
 }
