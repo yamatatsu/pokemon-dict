@@ -3,6 +3,7 @@ import {
 	Box,
 	BreadcrumbGroup,
 	Button,
+	Input,
 	Link,
 	SpaceBetween,
 	Table,
@@ -83,17 +84,10 @@ function FilterForm(props: {
 	const [searchName, setSearchName] = useState(props.defaultValue);
 
 	return (
-		<>
-			<TextFilter
-				filteringPlaceholder="pokemon name"
-				filteringText={searchName}
-				countText="0 matches"
-				onChange={({ detail }) => {
-					const name = detail.filteringText;
-					setSearchName(name);
-				}}
-			/>
-			<Button onClick={() => props.onClickButton(searchName)}>検索</Button>
-		</>
+		<Input
+			value={searchName}
+			onChange={({ detail }) => setSearchName(detail.value)}
+			onBlur={() => props.onClickButton(searchName)}
+		/>
 	);
 }
