@@ -111,7 +111,7 @@ function SpecieDetailSplitPanel() {
 		<SplitPanel
 			hidePreferencesButton
 			closeBehavior="hide"
-			header={specie.data.name}
+			header={specie.data.name ?? ""}
 		>
 			<Tabs
 				tabs={[

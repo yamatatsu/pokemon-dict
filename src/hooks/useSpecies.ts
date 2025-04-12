@@ -5,6 +5,7 @@ import { graphql } from "../gql";
 
 const query = graphql(`
 query speciesQuery($name: String) {
+  __typename
   pokemon_v2_pokemonspeciesname(
     where: {
       language_id: {_eq: 1},
@@ -13,6 +14,8 @@ query speciesQuery($name: String) {
     limit: 10
     order_by: {id: asc}
   ) {
+    __typename
+    id
     name
     genus
     pokemon_species_id

@@ -2,61 +2,85 @@ import { useQuery } from "urql";
 import { graphql } from "../gql";
 
 const query = graphql(`
-query specieQuery($id: Int) {
-  pokemon_v2_pokemonspeciesname(
-    where: {language_id: {_eq: 1}, pokemon_species_id: {_eq: $id}}
-    limit: 10
+query pokemonQuery($id: Int) {
+  __typename
+  pokemon_v2_pokemon(
+    where: {is_default: {_eq: true}, pokemon_species_id: {_eq: $id}}
   ) {
-    name
-    genus
-    pokemon_species_id
-    pokemon_v2_pokemonspecy {
-      pokemon_v2_pokemonspeciesflavortexts(where: {language_id: {_eq: 11}}) {
-        flavor_text
-      }
-      pokemon_v2_pokemons(where: {is_default: {_eq: true}}) {
-        height
-        weight
-        pokemon_v2_pokemontypes {
-          pokemon_v2_type {
-            pokemon_v2_typenames(where: {language_id: {_eq: 1}}) {
-              name
-            }
-          }
+    __typename
+    id
+    height
+    weight
+    pokemon_v2_pokemonmoves(
+      where: {pokemon_v2_movelearnmethod: {name: {_eq: "level-up"}}, version_group_id: {_eq: 20}}
+    ) {
+      __typename
+      id
+      level
+      pokemon_v2_move {
+        __typename
+        id
+        accuracy
+        move_effect_chance
+        pokemon_v2_movenames(where: {language_id: {_eq: 11}}) {
+          __typename
+          id
+          name
         }
-        pokemon_v2_pokemonmoves(
-          where: {
-            version_group_id: {_eq: 25},
-            pokemon_v2_movelearnmethod: {name: {_eq: "level-up"}}
-          }
+        pokemon_v2_moveflavortexts(
+          where: {language_id: {_eq: 11}, version_group_id: {_eq: 20}}
         ) {
-          level
-          pokemon_v2_move {
-            accuracy
-            move_effect_chance
-            pokemon_v2_movenames(where: {language_id: {_eq: 1}}) {
-              name
-            }
-            pokemon_v2_moveflavortexts(where: {language_id: {_eq: 1}, version_group_id: {_eq: 20}}) {
-              flavor_text
-            }
-            pokemon_v2_movedamageclass {
-              pokemon_v2_movedamageclassnames(where: {language_id: {_eq: 1}}) {
-                name
-              }
-            }
+          __typename
+          id
+          flavor_text
+        }
+        pokemon_v2_movedamageclass {
+          __typename
+          id
+          pokemon_v2_movedamageclassnames(where: {language_id: {_eq: 1}}) {
+            __typename
+            id
+            name
           }
         }
+      }
+    }
+    pokemon_v2_pokemontypes {
+      __typename
+      id
+      pokemon_v2_type {
+        __typename
+        id
+        pokemon_v2_typenames(where: {language_id: {_eq: 11}}) {
+          __typename
+          id
+          name
+        }
+      }
+    }
+    pokemon_v2_pokemonspecy {
+      __typename
+      id
+      pokemon_v2_pokemonspeciesnames(where: {language_id: {_eq: 11}}) {
+        __typename
+        id
+        name
+        genus
+      }
+      pokemon_v2_pokemonspeciesflavortexts(where: {language_id: {_eq: 11}}) {
+        __typename
+        id
+        flavor_text
       }
     }
   }
 }
 `);
 
-type SpecieDetail = {
-	pokemon_species_id?: number | null;
-	name: string;
-	genus: string;
+type PokemonDetail = {
+	pokemon_species_id: string;
+	name?: string;
+	genus?: string;
 	types?: string;
 	height?: number | null;
 	weight?: number | null;
@@ -72,26 +96,27 @@ type SpecieDetail = {
 };
 
 export function useSpecie(id: string): {
-	data: SpecieDetail | undefined;
+	data: PokemonDetail | undefined;
 } {
 	const [result] = useQuery({
 		query: query,
 		variables: { id: Number(id) },
 	});
 
-	const data = result.data?.pokemon_v2_pokemonspeciesname?.[0];
+	const data = result.data?.pokemon_v2_pokemon?.[0];
 
 	return {
 		data: data && {
-			pokemon_species_id: data.pokemon_species_id,
-			name: data.name,
-			genus: data.genus,
-			types:
-				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.pokemon_v2_pokemontypes
-					.map((type) => type.pokemon_v2_type?.pokemon_v2_typenames[0]?.name)
-					.join("/"),
-			height: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.height,
-			weight: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.weight,
+			pokemon_species_id: id,
+			name: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemonspeciesnames[0]
+				?.name,
+			genus:
+				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemonspeciesnames[0]?.genus,
+			types: data.pokemon_v2_pokemontypes
+				.map((type) => type.pokemon_v2_type?.pokemon_v2_typenames[0]?.name)
+				.join("/"),
+			height: data.height,
+			weight: data.weight,
 			flavor_text:
 				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemonspeciesflavortexts.reduce(
 					(acc, flavor) => {
@@ -102,20 +127,17 @@ export function useSpecie(id: string): {
 					},
 					"",
 				),
-			moves:
-				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.pokemon_v2_pokemonmoves.map(
-					(move) => ({
-						level: move.level,
-						name: move.pokemon_v2_move?.pokemon_v2_movenames[0]?.name,
-						accuracy: move.pokemon_v2_move?.accuracy,
-						move_effect_chance: move.pokemon_v2_move?.move_effect_chance,
-						flavor_text:
-							move.pokemon_v2_move?.pokemon_v2_moveflavortexts[0]?.flavor_text,
-						damage_class:
-							move.pokemon_v2_move?.pokemon_v2_movedamageclass
-								?.pokemon_v2_movedamageclassnames[0]?.name,
-					}),
-				),
+			moves: data.pokemon_v2_pokemonmoves.map((move) => ({
+				level: move.level,
+				name: move.pokemon_v2_move?.pokemon_v2_movenames[0]?.name,
+				accuracy: move.pokemon_v2_move?.accuracy,
+				move_effect_chance: move.pokemon_v2_move?.move_effect_chance,
+				flavor_text:
+					move.pokemon_v2_move?.pokemon_v2_moveflavortexts[0]?.flavor_text,
+				damage_class:
+					move.pokemon_v2_move?.pokemon_v2_movedamageclass
+						?.pokemon_v2_movedamageclassnames[0]?.name,
+			})),
 		},
 	};
 }
