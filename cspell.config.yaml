@@ -5,9 +5,13 @@ dictionaries: []
 words:
   - codegen
   - graphcache
+  - movedamageclass
+  - movedamageclassnames
+  - moveflavortexts
   - movelearnmethod
   - movenames
   - pokemonmoves
+  - pokemons
   - pokemonspeciesname
   - pokemonspeciesnames
   - pokemonspecy
