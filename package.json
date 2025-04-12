@@ -1,5 +1,5 @@
 {
-	"name": "pokemon-dic",
+	"name": "pokemon-dict",
 	"version": "1.0.0",
 	"license": "MIT",
 	"type": "module",
@@ -14,6 +14,7 @@
 		"@cloudscape-design/global-styles": "^1.0.0",
 		"@graphql-typed-document-node/core": "^3.2.0",
 		"@tanstack/react-router": "^1.77.6",
+		"@urql/exchange-graphcache": "^7.2.3",
 		"graphql": "^16.10.0",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",

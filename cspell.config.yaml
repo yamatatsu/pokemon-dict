@@ -4,7 +4,9 @@ dictionaryDefinitions: []
 dictionaries: []
 words:
   - codegen
+  - graphcache
   - pokemonspeciesname
   - urql
+  - yamatatsu
 ignoreWords: []
 import: []
