@@ -150,6 +150,14 @@ function SpecieDetailSplitPanel() {
 											? `${specie.data.weight / 10} kg`
 											: "不明",
 									},
+									{
+										label: "説明",
+										value: (
+											<p style={{ whiteSpace: "pre-wrap" }}>
+												{specie.data.flavor_text}
+											</p>
+										),
+									},
 								]}
 							/>
 						),

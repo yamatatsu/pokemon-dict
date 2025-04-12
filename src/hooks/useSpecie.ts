@@ -11,6 +11,9 @@ query specieQuery($id: Int) {
     genus
     pokemon_species_id
     pokemon_v2_pokemonspecy {
+      pokemon_v2_pokemonspeciesflavortexts(where: {language_id: {_eq: 11}}) {
+        flavor_text
+      }
       pokemon_v2_pokemons(where: {is_default: {_eq: true}}) {
         height
         weight
@@ -54,9 +57,10 @@ type SpecieDetail = {
 	pokemon_species_id?: number | null;
 	name: string;
 	genus: string;
+	types?: string;
 	height?: number | null;
 	weight?: number | null;
-	types?: string;
+	flavor_text?: string;
 	moves?: {
 		level: number;
 		name?: string;
@@ -88,6 +92,16 @@ export function useSpecie(id: string): {
 					.join("/"),
 			height: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.height,
 			weight: data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.weight,
+			flavor_text:
+				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemonspeciesflavortexts.reduce(
+					(acc, flavor) => {
+						if (acc.includes(flavor.flavor_text)) {
+							return acc;
+						}
+						return `${acc}\n\n${flavor.flavor_text}`;
+					},
+					"",
+				),
 			moves:
 				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemons[0]?.pokemon_v2_pokemonmoves.map(
 					(move) => ({

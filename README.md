@@ -1,7 +1,10 @@
-- [ ] detail page
-- [ ] detail page: moves
+- [x] detail page
+- [x] detail page: moves
 - [ ] detail page: evolution chain
-- [ ] search by name
+- [ ] detail page: weaknesses
+- [ ] persist search keyword
+- [ ] split list and detail pages
+- [x] search by name
 - [ ] link for github
 - [ ] host as github pages
 - [ ] i18n
