@@ -73,6 +73,11 @@ query pokemonQuery($id: Int) {
         flavor_text
       }
     }
+    pokemon_v2_pokemonsprites {
+      __typename
+      id
+      sprites
+    }
   }
 }
 `);
@@ -85,6 +90,10 @@ type PokemonDetail = {
 	height?: number | null;
 	weight?: number | null;
 	flavor_text?: string;
+	images: {
+		large?: string;
+		small?: string;
+	};
 	moves?: {
 		level: number;
 		name?: string;
@@ -117,6 +126,12 @@ export function useSpecie(id: string): {
 				.join("/"),
 			height: data.height,
 			weight: data.weight,
+			images: {
+				large:
+					data.pokemon_v2_pokemonsprites[0]?.sprites.other["official-artwork"]
+						.front_default,
+				small: data.pokemon_v2_pokemonsprites[0]?.sprites.front_default,
+			},
 			flavor_text:
 				data.pokemon_v2_pokemonspecy?.pokemon_v2_pokemonspeciesflavortexts.reduce(
 					(acc, flavor) => {
