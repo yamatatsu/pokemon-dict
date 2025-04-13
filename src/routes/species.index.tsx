@@ -2,8 +2,6 @@ import {
 	AppLayout,
 	Box,
 	BreadcrumbGroup,
-	Button,
-	Input,
 	Link,
 	SpaceBetween,
 	Table,
@@ -70,7 +68,7 @@ function SpecieTable() {
 			filter={
 				<FilterForm
 					defaultValue={species.searchName}
-					onClickButton={species.setSearchName}
+					onSearch={species.setSearchName}
 				/>
 			}
 		/>
@@ -79,15 +77,20 @@ function SpecieTable() {
 
 function FilterForm(props: {
 	defaultValue: string;
-	onClickButton: (name: string) => void;
+	onSearch: (name: string) => void;
 }) {
 	const [searchName, setSearchName] = useState(props.defaultValue);
 
 	return (
-		<Input
-			value={searchName}
-			onChange={({ detail }) => setSearchName(detail.value)}
-			onBlur={() => props.onClickButton(searchName)}
+		<TextFilter
+			filteringPlaceholder="ポケモンの名前"
+			filteringText={searchName}
+			onChange={({ detail }) => setSearchName(detail.filteringText)}
+			onDelayedChange={() => {
+				if (/^[ァ-ヴー]+$/.test(searchName)) {
+					props.onSearch(searchName);
+				}
+			}}
 		/>
 	);
 }
