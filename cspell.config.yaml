@@ -21,6 +21,7 @@ words:
   - typenames
   - urql
   - valibot
+  - versionnames
   - yamatatsu
 ignoreWords: []
 import: []

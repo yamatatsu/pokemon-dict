@@ -97,7 +97,7 @@ function SpecieDetail() {
 									: "不明",
 							},
 							{
-								label: "体重",
+								label: "重さ",
 								value: specie.data.weight
 									? `${specie.data.weight / 10} kg`
 									: "不明",
@@ -139,7 +139,15 @@ function SpecieDetail() {
 				/>
 
 				<Container header={<Header variant="h2">説明</Header>}>
-					<p style={{ whiteSpace: "pre-wrap" }}>{specie.data.flavor_text}</p>
+					<KeyValuePairs
+						columns={1}
+						items={specie.data.flavor_texts.map((ft) => ({
+							label: ft.versionName,
+							value: ft.text,
+						}))}
+					/>
+
+					<p style={{ whiteSpace: "pre-wrap" }}>{}</p>
 				</Container>
 			</Grid>
 		</ContentLayout>
