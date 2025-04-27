@@ -1,28 +1,12 @@
 import "@cloudscape-design/global-styles/index.css";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { offlineExchange } from "@urql/exchange-graphcache";
-import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Client, Provider as UrqlProvider, fetchExchange } from "urql";
+import { Provider as UrqlProvider } from "urql";
 import { routeTree } from "./routeTree.gen";
-import { schema } from "./schema";
+import { createClient } from "./urql-client";
 
-const storage = makeDefaultStorage({
-	idbName: "yamatatsu/pokemon-dict",
-	maxAge: 7,
-});
-
-const cache = offlineExchange({
-	schema,
-	storage,
-	logger: (severity, message) => console[severity](message),
-});
-
-const client = new Client({
-	url: "https://beta.pokeapi.co/graphql/v1beta",
-	exchanges: [cache, fetchExchange],
-});
+const urqlClient = createClient("https://beta.pokeapi.co/graphql/v1beta");
 
 const router = createRouter({ routeTree });
 
@@ -39,7 +23,7 @@ if (!container) {
 const root = createRoot(container);
 root.render(
 	<React.StrictMode>
-		<UrqlProvider value={client}>
+		<UrqlProvider value={urqlClient}>
 			<RouterProvider router={router} />
 		</UrqlProvider>
 	</React.StrictMode>,
