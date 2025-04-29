@@ -12,7 +12,10 @@ export function PDSideNavigation() {
 				event.preventDefault();
 				navigate({ to: event.detail.href });
 			}}
-			items={[{ type: "link", text: "ポケモン", href: "/species" }]}
+			items={[
+				{ type: "link", text: "ポケモン", href: "/species" },
+				{ type: "link", text: "タイプ相性", href: "/type-efficacies" },
+			]}
 		/>
 	);
 }

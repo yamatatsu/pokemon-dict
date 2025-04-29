@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as TypeEfficaciesIndexImport } from './routes/type-efficacies.index'
 import { Route as SpeciesIndexImport } from './routes/species.index'
 import { Route as SpeciesSpecieIdImport } from './routes/species.$specieId'
 
@@ -20,6 +21,12 @@ import { Route as SpeciesSpecieIdImport } from './routes/species.$specieId'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TypeEfficaciesIndexRoute = TypeEfficaciesIndexImport.update({
+  id: '/type-efficacies/',
+  path: '/type-efficacies/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpeciesIndexImport
       parentRoute: typeof rootRoute
     }
+    '/type-efficacies/': {
+      id: '/type-efficacies/'
+      path: '/type-efficacies'
+      fullPath: '/type-efficacies'
+      preLoaderRoute: typeof TypeEfficaciesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +83,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/species/$specieId': typeof SpeciesSpecieIdRoute
   '/species': typeof SpeciesIndexRoute
+  '/type-efficacies': typeof TypeEfficaciesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/species/$specieId': typeof SpeciesSpecieIdRoute
   '/species': typeof SpeciesIndexRoute
+  '/type-efficacies': typeof TypeEfficaciesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +98,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/species/$specieId': typeof SpeciesSpecieIdRoute
   '/species/': typeof SpeciesIndexRoute
+  '/type-efficacies/': typeof TypeEfficaciesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/species/$specieId' | '/species'
+  fullPaths: '/' | '/species/$specieId' | '/species' | '/type-efficacies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/species/$specieId' | '/species'
-  id: '__root__' | '/' | '/species/$specieId' | '/species/'
+  to: '/' | '/species/$specieId' | '/species' | '/type-efficacies'
+  id:
+    | '__root__'
+    | '/'
+    | '/species/$specieId'
+    | '/species/'
+    | '/type-efficacies/'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +119,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SpeciesSpecieIdRoute: typeof SpeciesSpecieIdRoute
   SpeciesIndexRoute: typeof SpeciesIndexRoute
+  TypeEfficaciesIndexRoute: typeof TypeEfficaciesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SpeciesSpecieIdRoute: SpeciesSpecieIdRoute,
   SpeciesIndexRoute: SpeciesIndexRoute,
+  TypeEfficaciesIndexRoute: TypeEfficaciesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +141,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/species/$specieId",
-        "/species/"
+        "/species/",
+        "/type-efficacies/"
       ]
     },
     "/": {
@@ -128,6 +153,9 @@ export const routeTree = rootRoute
     },
     "/species/": {
       "filePath": "species.index.tsx"
+    },
+    "/type-efficacies/": {
+      "filePath": "type-efficacies.index.tsx"
     }
   }
 }
